@@ -1,0 +1,486 @@
+
+[colors]
+background = #1a2023
+background-alt = #1a2023
+foreground = #DDDDDD
+foreground-alt = #548587
+fg-1 = #ffaf5f
+fg-2 = #ffd494
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+maia =  #259E83
+maia_darker = #158E73
+red=      #ca637c
+green=     #b7ce42
+yellow=      #f1ab57
+blue=     #66aabb
+magenta=     #9f8fbc
+cyan=     #7ea79f
+white=      #C7C79D
+ 
+ 
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+ 
+[bar/right]
+bottom = true
+width = 100%
+height = 18
+offset-x = 0
+offset-y = 0
+
+monitor= ${env:MONITOR:DVI-I-3} 
+;background = ${xrdb:color9}
+background = ${colors.background}
+foreground = ${colors.foreground}
+ 
+overline-size = 2
+overline-color = #f00
+underline-size = 2
+underline-color = ${colors.blue}
+ 
+spacing = 0
+padding-left = 1
+padding-right = 1
+module-margin-left = 2
+module-margin-right = 1
+ 
+font-0 = sans:pixelsize=8:antialias=false;1
+font-1 = tewi:pixelsize=8:antialias=false;1
+font-2 = siji:pixelsize=8:antialias=false;1
+font-3 = Unifont Upper:fontformat=truetype:size8:antialias=false;0
+font-4 = FontAwesome:pixelsize=9;0
+
+modules-left = i3 xwindow
+modules-center = clock
+modules-right = spotifycontroller spotify volume memory cpu weather xkeyboard menu0
+;systemRoot systemHome s
+;tray_output none
+;tray-position = right
+tray-detachedgg = true
+tray-padding = 2
+;tray-transparent = true
+tray-background = ${colors.background}
+
+
+;wm-restack = bspwm
+;wm-restack = i3
+ 
+;override-redirect = true
+ 
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+ 
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+[bar/left]
+inherit = bar/right
+monitor = ${env:MONITOR:DVI-I-2}
+modules-right = i3 xwindow
+modules-left = menu0 xkeyboard weather cpu memory volume spotify
+
+[module/menu0]
+type = custom/menu
+
+format = <menu> <label-toggle>
+format-padding = 1
+;format-margin = 1
+
+;format-background = ${colors.black}
+
+menu-0-0 = " shutdown  "
+menu-0-0-exec = shutdown now
+menu-0-1 = " restart  "
+menu-0-1-exec = shutdown -r now
+menu-0-2 = " lock  "
+menu-0-2-exec = ~/.lock.sh
+menu-0-3 = " cancel"
+menu-0-0-foreground = #f44242
+menu-0-1-foreground = #fba922
+menu-0-2-foreground = #42b6f4
+menu-0-3-foreground = #b3b6b7
+
+label-open = 
+label-open-foreground = #ff3d3d
+label-close =
+
+
+[module/clock]
+type = internal/date
+date = %{F#17a086} %{F#66}%a %b %d %{F#e8e8e8}%H:%M
+
+[module/volume]
+type = internal/volume
+
+format-volume = <ramp-volume> <bar-volume>
+;<label-volume>
+label-muted = 
+label-muted-foreground = ${colours.maia}
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-foreground = ${colours.maia}
+
+bar-volume-width = 6
+bar-volume-indicator =
+bar-volume-fill = 
+bar-volume-fill-font = 3
+bar-volume-fill-foreground = ${colours.white}
+bar-volume-empty = 
+bar-volume-empty-font = 3
+bar-volume-empty-foreground = ${colours.grey}
+
+;label-volume-foreground = ${colours.white}
+;label-volume-font = 0
+
+[module/xwindow]
+type = internal/xwindow
+label =  %title:0:70:...%
+;label-background = ${colors.background-alt}
+label-padding = 2
+ 
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+ 
+format-prefix = "   "
+format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-underline = ${colors.secondary}
+ 
+label-layout = %layout%
+;label-layout-underline = ${colors.secondary}
+ 
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+;label-indicator-underline = ${colors.secondary}
+
+[module/weather]
+type = custom/script
+interval = 500
+format = <label>
+exec = ~/.config/i3/scripts/weather
+
+;[module/weather]
+;type = custom/script
+;interval = 10
+;format = <label>
+;format-prefix = "  "
+;format-prefix-foreground = #F1F1F1
+;format-underline = #c38159
+;exec = ~/scripts/weather.py
+
+ 
+[module/filesystem]
+type = internal/fs
+interval = 25
+ 
+mount-0 = /
+ 
+label-mounted = " %percentage_used%%"
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+format-mounted-underline = ${colors.yellow}
+ 
+[module/bspwm]
+type = internal/bspwm
+
+pin-workspaces = true
+enable-scroll = false
+label-monitor = %name%
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.yellow}
+label-focused-padding = 2
+ 
+label-occupied = %name%
+label-occupied-padding = 2
+ 
+label-urgent = %name%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+ 
+label-empty = %name%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+  
+[module/hlws]
+type = custom/script
+exec = python3 ~/.config/polybar/scripts/hlws.py
+
+scroll-down = exec herbstclient use_index +1
+scroll-up = exec herbstclient use_index -1
+interval = 0.01 
+format-background = #525252
+format-underline = #2B2B2B
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+ 
+; Only show workspaces on the same output as the bar
+pin-workspaces = true
+ 
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+ 
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+ 
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+ 
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+ 
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+ 
+[module/mpd]
+type = internal/mpd
+format-online = ⭯ <label-song>  <icon-prev> <toggle> <icon-next>
+ 
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+ 
+ 
+label-song-maxlen = 25
+label-song-ellipsis = true
+label-song = %title%
+ 
+[module/xbacklight]
+type = internal/xbacklight
+format = ☀> <label>
+label = "%percentage%%"
+ 
+bar-width = 10
+bar-indicator = >
+bar-indicator-foreground = #ffffff
+bar-indicator-font = 2
+bar-fill = =
+bar-fill-font = 2
+bar-empty = =
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground-alt}
+format-underline = #008000
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+ 
+[module/cpu]
+type = internal/cpu
+interval = 2
+;format-prefix = "ܭ "
+format-prefix = " CPU "
+format-prefix-foreground = #cba55c
+;format-underline = #98218E
+label = %percentage%%
+
+ 
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " RAM "
+format-prefix-foreground = #ff3600
+;format-underline = #F4436F
+label = %percentage_used%%
+ 
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+ 
+format-connected = <ramp-signal><label-connected>
+format-connected-underline = ${colors.green}
+label-connected = %essid%
+ 
+;format-disconnected =
+;format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+ 
+[module/eth]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+ 
+format-connected-underline = ${colors.yellow}
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+ 
+format-disconnected =
+;format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+ 
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %d/%m (%a)"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = ⭧
+format-prefix-foreground = #F1F1F1
+;format-underline = #87875f
+
+label = %date% %time%
+     
+   
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ACAD
+full-at = 98
+ 
+format-charging = <animation-charging> <label-charging>
+ 
+format-discharging = <ramp-capacity> <label-discharging>
+ 
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.foreground-alt}
+ 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+ 
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+ 
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+ 
+format = <ramp> <label>
+format-underline = ${colors.cyan}
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+ 
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+ 
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 2
+
+label-open = "      "
+label-close = 
+label-separator = |
+
+label-open-foreground = ${colours.white}
+label-open-background = ${colours.maia_darker}
+label-close-foreground = ${colours.maia}
+label-separator-foreground = ${colours.grey}
+
+
+menu-0-0 = Lock
+menu-0-0-foreground = ${colours.white}
+menu-0-0-exec = ~/.config/i3/Lock.sh
+menu-0-1 = Reboot
+menu-0-1-foreground = ${colours.white}
+menu-0-1-exec = reboot
+menu-0-2 = "Shutdown   "
+menu-0-2-foreground = ${colours.white}
+menu-0-2-exec = poweroff
+ 
+[module/mail]
+type = custom/script
+interval = 10
+format = <label>
+format-prefix = " ⭮ "
+format-prefix-foreground = ${colors.foreground-alt}
+exec = ~/.config/polybar/mail.py
+ 
+[module/redshift]
+type = custom/script
+interval = 5
+exec = ~/.config/polybar/redshift.sh
+format-underline=#ffb52a
+ 
+[module/music]
+type = custom/script
+interval = 2
+ 
+label = %output:0:60:...%
+exec = ~/.config/polybar/mpris.sh
+
+
+[module/spotify]
+type = custom/script
+interval = 2
+format = <label>
+;format-prefix = "  "
+format-prefix-foreground =#33cc00
+exec = ~/.config/i3/scripts/spotifiy.py
+
+[module/spotifycontroller]
+type = custom/menu
+label-open = ""
+label-open-foreground = #33cc00
+label-close =  
+
+menu-0-3 = "  "
+menu-0-3-exec = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+menu-0-2 = "  "
+menu-0-2-exec = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+menu-0-1 = "  "
+menu-0-1-exec = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+menu-0-0 = "  "
+menu-0-0-exec = dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous && dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+ 
+; vim:ft=dosini

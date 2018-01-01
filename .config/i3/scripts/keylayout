@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CODE="$(xset -q | grep -A 0 'LED' | cut -c59-67)"
+
+if [[ "$CODE" == "00000000" ]]; then
+	echo "en"
+else
+	echo "he"
+fi
